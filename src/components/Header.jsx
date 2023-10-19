@@ -177,7 +177,7 @@ const Header = () => {
             >
               PhoenixTech
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Box sx={{flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {!auth.user
                 ? publicPage.map((page) => (
                     <Button

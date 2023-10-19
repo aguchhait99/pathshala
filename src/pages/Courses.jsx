@@ -7,13 +7,11 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
 import { useAuth } from "../context/Auth";
-import { useNavigate, Link } from "react-router-dom";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 
 const Courses = () => {
@@ -32,23 +30,7 @@ const Courses = () => {
     CourseData();
   }, []);
 
-  // Modal
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 300,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
+  
   return (
     <>
       <Layout title={"PhoenixTech-Courses"}>
@@ -101,43 +83,18 @@ const Courses = () => {
                           * Duration: {element.duration}
                         </Typography>
                         <Button variant="contained" color="error" sx={{m: 2, ml: "6vw"}}
-                        onClick={!auth.user ? handleOpen : ()=> navigate(`/applycourse/${element._id}`)}
+                        onClick={!auth.user ? ()=>swal({
+                          title: "Are you logged in?",
+                          text: "Please login first to access further.",
+                          icon: "error",
+                          dangerMode: true,
+                          button: {
+                            onclick: navigate('/login')
+                          },
+                        }) : ()=> navigate(`/applycourse/${element._id}`)}
                         >
                           Apply Now
                         </Button>
-                        <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                          >
-                            <Box sx={style}>
-                              <img
-                                src={"/assets/opps2.png"}
-                                alt=""
-                                height={250}
-                                style={{
-                                  textAlign: "center",
-                                  margin: "auto",
-                                  display: "block",
-                                  justifyContent: "center",
-                                  alignItems: "center"
-                                }}
-                              />
-                              <Typography variant="h6"
-                                id="modal-modal-description"
-                                sx={{ textAlign: "center", fontFamily: "Times New Roman" }}
-                              >
-                                You have to login first to read more.
-                              </Typography>
-                              <Typography textAlign={"center"} marginTop={2}><Link
-                                  to={`/login`}
-                                  style={{ textDecoration: "none", color: "red", fontFamily: "Times New Roman"}}
-                                >
-                                  Click Here
-                                </Link></Typography>
-                            </Box>
-                          </Modal>
                       </CardContent>
                     </Card>
                   </Grid>

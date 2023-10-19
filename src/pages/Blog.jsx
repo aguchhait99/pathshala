@@ -24,6 +24,7 @@ import InputBase from "@mui/material/InputBase";
 import { useAuth } from "../context/Auth";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import swal from "sweetalert";
 
 const Blog = () => {
   const imgUrl = "https://restapinodejs.onrender.com";
@@ -149,7 +150,7 @@ const Blog = () => {
   return (
     <>
       <Layout title={"PhoenixTech-Blog"}>
-        <Container>
+        <Container sx={{mt: 4}}>
           <Grid
             container
             rowSpacing={1}
@@ -217,7 +218,15 @@ const Blog = () => {
                           {
                             !auth.user
                             ? 
-                            <Link onClick={handleOpen}>Read More</Link>
+                            <Link onClick={()=>swal({
+                              title: "Are you logged in?",
+                              text: "Please login first to access further.",
+                              icon: "error",
+                              dangerMode: true,
+                              button: {
+                                onclick: navigate('/login')
+                              },
+                            })}>Read More</Link>
                             : 
                             <Link to={`/blogdetails/${blogs._id}`}>Read More</Link>
                           }
