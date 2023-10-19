@@ -65,19 +65,19 @@ const Home = () => {
       <Layout title={"PhoenixTech-Home"}>
         {/* Carousel */}
         <Carousel showThumbs={false}>
-          {banners.map((banner, index) => (
+          {banners?.map((banner, index) => (
             <div>
               <img
                 key={index}
-                src={`${imgURL}/api/banner/photo/${banner._id}`}
+                src={`${imgURL}/api/banner/photo/${banner?._id}`}
                 alt="No Photo"
                 height={500}
               />
               <Box sx={bannerStyle}>
                 <Typography variant="h4" p={2} fontWeight={"bold"}>
-                  {banner.title}
+                  {banner?.title}
                 </Typography>
-                <Typography>{banner.description}</Typography>
+                <Typography>{banner?.description}</Typography>
                 <Button
                   variant="outlined"
                   sx={{ border: "2px solid red", color: "white", m: 2 }}
@@ -165,12 +165,12 @@ const Home = () => {
                             sx={{height: 80, width: 80}}
                           />
                         }
-                        title={element.name}
-                        subheader={element.position}
+                        title={element?.name}
+                        subheader={element?.position}
                       />
                       <CardContent>
                         <Typography variant="body2" color="text.secondary">
-                          {element.talk}
+                          {element?.talk}
                         </Typography>
                       </CardContent>
                     </Card>
