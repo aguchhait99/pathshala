@@ -208,7 +208,7 @@ const Header = () => {
                     <Button
                       key={page}
                       onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "black", display: "block", mr: 2, fontWeight: "bold", fontStyle: "italic" }}
+                      sx={{ my: 2, color: "black", display: "block", mr: 2, fontWeight: "bold", fontStyle: "italic", "&:hover": { color: "red" } }}
                       component={Link}
                       to={page == "Home" ? `/` : `/${page}`}
                     >
@@ -219,7 +219,7 @@ const Header = () => {
                     <Button
                       key={page}
                       onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "black", display: "block", mr: 2, fontWeight: "bold", fontStyle: "italic" }}
+                      sx={{ my: 2, color: "black", display: "block", mr: 2, fontWeight: "bold", fontStyle: "italic", "&:hover": { color: "red" } }}
                       component={Link}
                       to={page == "Home" ? `/` : `/${page}`}
                     >
