@@ -12,7 +12,7 @@ import Layout from "../components/Layout";
 const ApplyCourse = () => {
   const { register, handleSubmit } = useForm();
   const [auth] = useAuth();
-  const { id } = useParams();
+  const { id, course } = useParams();
   const navigate = useNavigate()
 
   const onSubmit = async (data) => {
@@ -34,7 +34,7 @@ const ApplyCourse = () => {
             mb: 5,
           }}
         >
-          <h2 style={{ paddingTop: 30, textAlign: "center" }}>Apply Course</h2>
+          <h2 style={{ paddingTop: 30, textAlign: "center" }}>Apply for {course}</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <TextField
@@ -142,9 +142,10 @@ const ApplyCourse = () => {
               type="submit"
               variant="contained"
               color="error"
-              sx={{ margin: 5, ml: "18vw" }}
+              sx={{ margin: 5, ml: "20vw" }}
+              a
             >
-              Add Comment
+              Apply
             </Button>
           </form>
         </Container>

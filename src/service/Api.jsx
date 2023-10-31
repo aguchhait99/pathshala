@@ -92,9 +92,9 @@ export const categoryDetailsData = async (id)=>{
 }
 
 // Serach 
-export const searchData = async()=>{
+export const searchData = async(data)=>{
     try{
-        return await axiosInstance.get(`/api/search`)
+        return await axiosInstance.post(`/api/search`, data)
     }catch(error){
         console.log('Error while fetching the api data');
     }
@@ -152,5 +152,23 @@ export const applyCourse = async (id, data)=>{
         return axiosInstance.post(`/api/course/apply/${id}`, data)
     }catch(error){
         console.log('Error while fetching the api data.');
+    }
+}
+
+// Contact Us
+export const contactData = async(data)=>{
+    try{
+        return await axiosInstance.post(`/api/contact/create`, data)
+    }catch(error){
+        console.log('Error while fetching the api data.');
+    }
+}
+
+// Like
+export const likeCount = async(id)=>{
+    try{
+        return await axiosInstance.put(`api/blog/like/${id}`)
+    }catch(error){
+        console.log('Error while fetching the api details.');
     }
 }

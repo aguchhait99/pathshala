@@ -15,6 +15,7 @@ import { useAuth } from "../context/Auth";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
+import swal from "sweetalert";
 
 const privatePage = ["Home", "About", "Courses", "Blog", "Contact"];
 const publicPage = ["Home", "About", "Courses", "Blog", "Contact", "Login"];
@@ -68,6 +69,29 @@ const Header = () => {
     p: 2,
   };
 
+  const sweetPop = ()=>{
+    swal("Are you sure?", {
+      dangerMode: true,
+      buttons: {
+        cancel: {
+            text: "Cancel",
+            value: false,
+            visible: true,
+        },
+        confirm: {
+            text: "Confirm",
+            value: true,
+            visible: true,
+        }
+    } 
+    },)
+    .then((value)=>{
+      if(value){
+        handleLogout()
+      }
+    })
+  }
+
   return (
     <>
       <AppBar position="sticky" color="grey">
@@ -81,6 +105,7 @@ const Header = () => {
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
+                flexGrow: 1,
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
@@ -177,13 +202,13 @@ const Header = () => {
             >
               PhoenixTech
             </Typography>
-            <Box sx={{flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Box sx={{ display: { xs: "none", md: "flex" },  }}>
               {!auth.user
                 ? publicPage.map((page) => (
                     <Button
                       key={page}
                       onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "black", display: "block" }}
+                      sx={{ my: 2, color: "black", display: "block", mr: 2, fontWeight: "bold", fontStyle: "italic" }}
                       component={Link}
                       to={page == "Home" ? `/` : `/${page}`}
                     >
@@ -194,7 +219,7 @@ const Header = () => {
                     <Button
                       key={page}
                       onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "black", display: "block" }}
+                      sx={{ my: 2, color: "black", display: "block", mr: 2, fontWeight: "bold", fontStyle: "italic" }}
                       component={Link}
                       to={page == "Home" ? `/` : `/${page}`}
                     >
@@ -208,11 +233,12 @@ const Header = () => {
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
-                      alt={auth.user.name}
+                      alt={auth.user.name.toUpperCase()}
                       src="/assets/login_bg.pn"
                       sx={{
                         border: "3px solid white",
                         boxShadow: "0px 0px 30px rgba(0,0,0,0.5)",
+                        backgroundColor: "#0D80D8"
                       }}
                     />
                   </IconButton>
@@ -239,13 +265,13 @@ const Header = () => {
                         textAlign="center"
                         onClick={
                           setting == "Logout"
-                            ? handleOpen
+                            ? sweetPop
                             : () => navigate(`/${setting}`)
                         }
                       >
                         {setting}
                       </Typography>
-                      <Modal
+                      {/* <Modal
                         open={open}
                         onClose={handleClose}
                         aria-labelledby="modal-modal-title"
@@ -284,7 +310,7 @@ const Header = () => {
                             Logout
                           </Link>
                         </Box>
-                      </Modal>
+                      </Modal> */}
                     </MenuItem>
                   ))}
                 </Menu>

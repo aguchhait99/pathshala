@@ -37,15 +37,17 @@ const Courses = () => {
         <Container>
           <Grid
             container
-            rowSpacing={1}
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            sx={{ mt: 3 }}
+            spacing={0}
+            direction={{ xs: "column", md: "row" }}
+            justifyContent={{ xs: "center", md: "flex-baseline" }}
+            alignItems={{ xs: 'center', md: 'flex-end' }}
+            sx={{ mt: 3, }}
           >
             {course?.map((element, index) => {
               return (
                 <>
                   <Grid item xs={4} key={index}>
-                    <Card sx={{ width: 345, height: 450, m: 2, borderRadius: 4 }}>
+                    <Card sx={{ width: "auto", height: 450, m: 2, borderRadius: 4 }}>
                       <CardHeader
                         sx={{
                           backgroundColor: "red",
@@ -61,6 +63,7 @@ const Courses = () => {
                         width="50"
                         image={`${imgUrl}/api/course/photo/${element._id}`}
                         alt="Paella dish"
+                        loading="lazy"
                       />
                       <CardContent>
                         <Typography
@@ -88,10 +91,7 @@ const Courses = () => {
                           text: "Please login first to access further.",
                           icon: "error",
                           dangerMode: true,
-                          button: {
-                            onclick: navigate('/login')
-                          },
-                        }) : ()=> navigate(`/applycourse/${element._id}`)}
+                        }) : ()=> navigate(`/applycourse/${element.name}/${element._id}`)}
                         >
                           Apply Now
                         </Button>

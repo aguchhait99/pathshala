@@ -56,7 +56,7 @@ const Home = () => {
     fontSize: "18px",
     borderTop: "5px solid red",
     width: "50%",
-    mt: "25vh",
+    mt: "20vh",
     ml: "25vw",
   };
 
@@ -64,9 +64,16 @@ const Home = () => {
     <div>
       <Layout title={"PhoenixTech-Home"}>
         {/* Carousel */}
-        <Carousel showThumbs={false}>
+        <Carousel
+          showThumbs={false}
+          showArrows={true}
+          autoPlay={true}
+          showStatus={false}
+          swipeable={true}
+          infiniteLoop={true}
+        >
           {banners?.map((banner, index) => (
-            <div>
+            <div key={index}>
               <img
                 key={index}
                 src={`${imgURL}/api/banner/photo/${banner?._id}`}
@@ -74,10 +81,10 @@ const Home = () => {
                 height={500}
               />
               <Box sx={bannerStyle}>
-                <Typography variant="h4" p={2} fontWeight={"bold"}>
+                <Typography p={2} fontWeight={"bold"} fontSize={"2em"}>
                   {banner?.title}
                 </Typography>
-                <Typography>{banner?.description}</Typography>
+                <Typography fontSize={"1rem"}>{banner?.description}</Typography>
                 <Button
                   variant="outlined"
                   sx={{ border: "2px solid red", color: "white", m: 2 }}
@@ -101,13 +108,16 @@ const Home = () => {
             container
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            direction={{ xs: "column", md: "row" }}
+            justifyContent={{ xs: "center", md: "flex-end" }}
+            alignItems={{ xs: "center", md: "flex-end" }}
             sx={{ pt: 4, pb: 4 }}
           >
             {service?.map((item, key) => {
               return (
                 <>
                   <Grid item xs={4}>
-                    <Card sx={{ maxWidth: 345, height: "60vh", mb: 2 }}>
+                    <Card sx={{ maxWidth: "345", height: "60vh", mb: 2 }}>
                       <CardMedia
                         sx={{ height: 200 }}
                         image="/assets/Service_img.png"
@@ -151,18 +161,28 @@ const Home = () => {
             container
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+            direction={{ xs: "column", md: "row" }}
+            justifyContent={{ xs: "center", md: "flex-baseline" }}
+            alignItems={{ xs: "center", md: "flex-end" }}
           >
             {testimonial?.map((element, index) => {
               return (
                 <>
-                  <Grid item xs={6}>
-                    <Card sx={{ Width: 345, height: 250, m: 2, boxShadow: "0px 0px 30px rgba(0,0,0,0.3)" }}>
+                  <Grid item xs={6} height={"auto"} width={"auto"}>
+                    <Card
+                      sx={{
+                        Width: 345,
+                        height: 250,
+                        m: 2,
+                        boxShadow: "0px 0px 30px rgba(0,0,0,0.3)",
+                      }}
+                    >
                       <CardHeader
                         avatar={
                           <Avatar
                             alt="Remy Sharp"
                             src={`${imgURL}/api/testimonials/photo/${element._id}`}
-                            sx={{height: 80, width: 80}}
+                            sx={{ height: 80, width: 80 }}
                           />
                         }
                         title={element?.name}

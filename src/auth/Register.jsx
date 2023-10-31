@@ -48,15 +48,16 @@ const Register = () => {
             container
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 6 }}
+            
           >
-            <Grid item xs={4}>
+            <Grid item xs={4} width={"auto"}>
               <img
                 src="/assets/register_img.jpg"
                 alt=""
                 style={{ margin: "30% 0% 20% 10%", height: "45vh" }}
               />
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={8} width={"auto"}>
               <h3
                 style={{
                   textAlign: "center",

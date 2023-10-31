@@ -1,6 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import Header from './Header'
+import Footer from './Footer'
 
 const Layout = ({children, title, description, keywords, author}) => {
   return (
@@ -17,6 +18,7 @@ const Layout = ({children, title, description, keywords, author}) => {
       <main style={{height: "auto"}}>
         {children}
       </main>
+      <Footer/>
     </>
   )
 }

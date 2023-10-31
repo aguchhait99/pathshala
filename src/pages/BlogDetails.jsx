@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { blogDetailsData, commentsData, postComments } from "../service/Api";
+import {
+  blogDetailsData,
+  commentsData,
+  likeCount,
+  postComments,
+} from "../service/Api";
 import Layout from "../components/Layout";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
@@ -14,13 +18,18 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import Skeleton from "@mui/material/Skeleton";
 import { useAuth } from "../context/Auth";
+import { CardHeader, IconButton, Tooltip } from "@mui/material";
+import moment from "moment/moment";
+import PersonIcon from "@mui/icons-material/Person";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CommentIcon from "@mui/icons-material/Comment";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 const BlogDetails = () => {
   const [blog, setBlog] = useState([]);
   const [comment, setComment] = useState([]);
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
-
 
   const navigate = useNavigate();
 
@@ -34,7 +43,7 @@ const BlogDetails = () => {
     const response = await blogDetailsData(id);
     setBlog(response?.data?.data);
     setLoading1(false);
-    // console.log("data", response);
+    console.log("data", response);
   };
 
   //   Fecth Comments
@@ -49,8 +58,8 @@ const BlogDetails = () => {
   //   console.log("com", comment);
 
   //   Post Comments
-  const { register, handleSubmit,setValue } = useForm();
-  const [auth] = useAuth()
+  const { register, handleSubmit } = useForm();
+  const [auth] = useAuth();
 
   const onSubmit = async (data) => {
     try {
@@ -59,6 +68,28 @@ const BlogDetails = () => {
       getComments();
     } catch (error) {
       toast.error("Something Went Wrong");
+    }
+  };
+
+  // Like
+  const [like, setLike] = useState(true);
+  const [islikeClicked, setIsLikeClicked] = useState( localStorage.getItem(`liked_${id}`) === 'true');
+
+  const likeData = async () => {
+    try {
+      if(!islikeClicked){
+      const res_like = await likeCount(id);
+      if (res_like?.data) {
+        setLike(false);
+        setIsLikeClicked(true)
+        localStorage.setItem(`liked_${id}`, 'true');
+      } else {
+        setLike(!like);
+        toast.error("Already Liked")
+      }
+      getBlogDetailsData();
+    } }catch (error) {
+      console.log("error");
     }
   };
 
@@ -76,7 +107,7 @@ const BlogDetails = () => {
   return (
     <>
       <Layout title={"Blog-Details"}>
-        <Container>
+        <Container sx={{ mt: 4 }}>
           {loading1 ? (
             <>
               <Card sx={{ boxShadow: "0px 0px 30px rgba(0,0,0,0.5)" }}>
@@ -98,6 +129,63 @@ const BlogDetails = () => {
           ) : (
             <>
               <Card sx={{ boxShadow: "0px 0px 30px rgba(0,0,0,0.5)" }}>
+                <CardHeader
+                  title={blog.title}
+                  subheader={
+                    <>
+                      <Button variant="contained"
+                                sx={{
+                                  "&:hover": { backgroundColor: "orange" },
+                                  backgroundColor: "orange",
+                                  mt: 1,
+                                  mb: 1,
+                                }}>
+                        <PersonIcon style={{ fontSize: "medium", paddingRight: "4px" }} /> John Doe
+                      </Button>
+                      <Button variant="contained"
+                                sx={{
+                                  "&:hover": { backgroundColor: "#ffd800" },
+                                  backgroundColor: "#ffd800",
+                                  mt: 1,
+                                  mb: 1,
+                                  ml: 2
+                                }}>
+                      <time>
+                        <CalendarMonthIcon
+                          style={{ fontSize: "medium", paddingRight: "2px", paddingTop: "2px"}}
+                        />
+                        {moment(blog.createdAt).format(" Do MM, YYYY")}
+                      </time>
+                      </Button>
+                      <Button variant="contained"
+                                sx={{
+                                  "&:hover": { backgroundColor: "#D54B01" },
+                                  backgroundColor: "#D54B01",
+                                  mt: 1,
+                                  mb: 1,
+                                  ml: 2
+                                }}>
+                        <CommentIcon
+                          style={{
+                            fontSize: "medium",
+                            paddingRight: "0.5vw",
+                          }}
+                        />
+                        {blog.comments.length}
+                      </Button>
+                      <span style={{paddingLeft: "1vw"}}>
+
+                            <Tooltip title="Like" >
+                              <IconButton onClick={likeData} disabled={islikeClicked}>
+                                <ThumbUpIcon sx={islikeClicked ? {color: "blue"} : {color: "grey"}}/>
+                              </IconButton>
+                            </Tooltip>
+                          
+                        {blog?.likes}
+                      </span>
+                    </>
+                  }
+                />
                 <CardMedia
                   sx={{ height: 600 }}
                   image={`${imgUrl}/api/blog/image/${id}`}
@@ -107,12 +195,16 @@ const BlogDetails = () => {
                   <Typography gutterBottom variant="h5" component="div">
                     {blog.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {blog.postText}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    dangerouslySetInnerHTML={{
+                      __html: blog?.postText,
+                    }}
+                  >
+                    {/* {blog.postText} */}
                   </Typography>
                 </CardContent>
-                <CardActions>
-                </CardActions>
               </Card>
             </>
           )}
@@ -140,7 +232,13 @@ const BlogDetails = () => {
                           color="text.secondary"
                           gutterBottom
                         >
-                          {<time dateTime="2020-01-01">{(new Date(comments.createdAt)).toLocaleDateString()}</time>}
+                          {
+                            <time dateTime="2020-01-01">
+                              {new Date(
+                                comments.createdAt
+                              ).toLocaleDateString()}
+                            </time>
+                          }
                         </Typography>
                         <Typography
                           sx={{ fontSize: 18, fontFamily: "times new roman" }}

@@ -12,9 +12,14 @@ import {
   Button,
 } from "@mui/material";
 import Layout from "../components/Layout";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
 import { useAuth } from "../context/Auth";
+import swal from "sweetalert";
+import moment from "moment/moment";
+import PersonIcon from '@mui/icons-material/Person';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CommentIcon from '@mui/icons-material/Comment';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+
 
 const CategoryDetails = () => {
   const imgUrl = "https://restapinodejs.onrender.com";
@@ -37,6 +42,18 @@ const CategoryDetails = () => {
     getCategoryDetails();
   }, []);
 
+  const sweetPopup = ()=>{
+    swal({
+      title: "No Data Found",
+      text: " ",
+      icon: "warning",
+      dangerMode: true,
+      buttons: false,
+      onclick: navigate('/blog'),
+      timer:3000
+    })
+  }
+
   // Load More Data Option
   const dataPerRow = 2;
   const [loadMoreData, setLoadMoreData] = useState(dataPerRow);
@@ -44,38 +61,10 @@ const CategoryDetails = () => {
     setLoadMoreData(loadMoreData + dataPerRow);
   };
 
-  // Modal
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 300,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-  };
-
-  const style_NoData = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 200,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 2,
-  };
-
   return (
     <>
       <Layout title={"Category-Details"}>
-        <Container>
+        <Container sx={{mt: 5}}>
           {loading ? (
             <>
               <Card
@@ -99,41 +88,7 @@ const CategoryDetails = () => {
               </Card>
             </>
           ) : !category.length > 0 ? (
-            <Modal
-              open={true}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Box sx={style_NoData}>
-                <img
-                  src={"/assets/sad.png"}
-                  alt=""
-                  height={150}
-                  style={{
-                    textAlign: "center",
-                    margin: "auto",
-                    display: "block",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                />
-                <Typography
-                  id="modal-modal-title"
-                  variant="h6"
-                  component="h2"
-                  textAlign={"center"}
-                >
-                  No Data Found
-                </Typography>
-                <Link
-                  color="error"
-                  onClick={() => navigate(-1)}
-                  style={{marginLeft: "35%", textDecoration: "none", color: "red"}}
-                >
-                  Go Back
-                </Link>
-              </Box>
-            </Modal>
+            sweetPopup()
           ) : (
             <>
               {category?.length > 0 &&
@@ -149,7 +104,68 @@ const CategoryDetails = () => {
                       >
                         <CardHeader
                           title={category.title}
-                          subheader={category.createdAt}
+                          subheader={
+                            <>
+                            <Button
+                                variant="contained"
+                                sx={{
+                                  "&:hover": { backgroundColor: "orange" },
+                                  backgroundColor: "orange",
+                                  mt: 1,
+                                  mb: 1,
+                                }}
+                              >
+                                <PersonIcon
+                                  style={{
+                                    fontSize: "medium",
+                                    paddingRight: "5px",
+                                  }}
+                                />{" "}
+                                John Doe
+                              </Button>
+                              <Button
+                                variant="contained"
+                                sx={{
+                                  "&:hover": { backgroundColor: "#ffd800" },
+                                  backgroundColor: "#ffd800",
+                                  mt: 1,
+                                  mb: 1,
+                                  ml: 1,
+                                }}
+                              >
+                                <time>
+                                  <CalendarMonthIcon
+                                    style={{
+                                      fontSize: "medium",
+                                      paddingRight: "2px",
+                                    }}
+                                  />
+                                  {moment(category.createdAt).format(
+                                    " Do MM, YYYY"
+                                  )}
+                                </time>
+                              </Button>
+                              <Button
+                                variant="contained"
+                                sx={{
+                                  "&:hover": { backgroundColor: "#D54B01" },
+                                  backgroundColor: "#D54B01",
+                                  mt: 1,
+                                  mb: 1,
+                                  ml: 1,
+                                }}
+                              >
+                                <CommentIcon
+                                  style={{
+                                    fontSize: "medium",
+                                    paddingTop: "2px",
+                                    paddingRight: "5px",
+                                  }}
+                                />
+                                {category.comments.length}
+                              </Button>
+                            </>
+                          }
                         />
                         <CardMedia
                           component="img"
@@ -158,59 +174,29 @@ const CategoryDetails = () => {
                           alt="No Image Found"
                         />
                         <CardContent>
-                          <Typography variant="body2" color="text.secondary">
-                            {category.postText.slice(0, 300)}
+                          <Typography variant="body2" color="text.secondary" dangerouslySetInnerHTML={{
+                              __html: category?.postText.slice(0, 300),
+                            }}>
+                            {/* {category.postText.slice(0, 300)} */}
                           </Typography>
                           {!auth.user ? (
-                            <Link onClick={handleOpen}>Read More</Link>
-                          ) : (
-                            <Link to={`/blogdetails/${category._id}`}>
+                            <Link onClick={()=>swal({
+                              title: "Are you logged in?",
+                              text: "Please login first to access further.",
+                              icon: "error",
+                              dangerMode: true,
+                            })}>
+                              <Button variant="contained" color="warning">
                               Read More
+                              </Button>
+                            </Link>
+                          ) : (
+                            <Link to={`/blogdetails/${category._id}`} style={{textDecoration: "none", color: "blue"}}>
+                              <Button variant="contained" color="warning">
+                              Read More
+                              </Button>
                             </Link>
                           )}
-                          <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                          >
-                            <Box sx={style}>
-                              <img
-                                src={"/assets/opps2.png"}
-                                alt=""
-                                height={250}
-                                style={{
-                                  textAlign: "center",
-                                  margin: "auto",
-                                  display: "block",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              />
-                              <Typography
-                                variant="h6"
-                                id="modal-modal-description"
-                                sx={{
-                                  textAlign: "center",
-                                  fontFamily: "Times New Roman",
-                                }}
-                              >
-                                You have to login first to read more.
-                              </Typography>
-                              <Typography textAlign={"center"} marginTop={2}>
-                                <Link
-                                  to={`/login`}
-                                  style={{
-                                    textDecoration: "none",
-                                    color: "red",
-                                    fontFamily: "Times New Roman",
-                                  }}
-                                >
-                                  Click Here
-                                </Link>
-                              </Typography>
-                            </Box>
-                          </Modal>
                         </CardContent>
                       </Card>
                     </>

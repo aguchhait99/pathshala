@@ -11,6 +11,7 @@ import Register from '../auth/Register'
 import BlogDetails from '../pages/BlogDetails'
 import CategoryDetails from '../pages/CategoryDetails'
 import ApplyCourse from '../pages/ApplyCourse'
+import SearchPage from '../pages/SearchPage'
 
 const Routing = () => {
     function ProtectedRoute ({children}) {
@@ -59,6 +60,10 @@ const Routing = () => {
         {
             path: '/categorydetails/:id',
             component: <CategoryDetails/>
+        },
+        {
+            path: '/searchpage/:encodedItem',
+            component: <SearchPage/>
         }
     ]
 
@@ -74,9 +79,9 @@ const Routing = () => {
             component: <BlogDetails/>
         },
         {
-            path: '/applycourse/:id',
+            path: '/applycourse/:course/:id',
             component: <ApplyCourse/>
-        }
+        },
     ]
   return (
     <>
