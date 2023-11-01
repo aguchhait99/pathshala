@@ -8,16 +8,16 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { useAuth } from "../context/Auth";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
-
+import { CardActions } from "@mui/material";
 
 const Courses = () => {
   const [course, setCourse] = useState([]);
-  const [auth] = useAuth()
-  const navigate = useNavigate()
+  const [auth] = useAuth();
+  const navigate = useNavigate();
   const imgUrl = "https://restapinodejs.onrender.com";
 
   const CourseData = async () => {
@@ -30,7 +30,6 @@ const Courses = () => {
     CourseData();
   }, []);
 
-  
   return (
     <>
       <Layout title={"PhoenixTech-Courses"}>
@@ -40,14 +39,22 @@ const Courses = () => {
             spacing={0}
             direction={{ xs: "column", md: "row" }}
             justifyContent={{ xs: "center", md: "flex-baseline" }}
-            alignItems={{ xs: 'center', md: 'flex-end' }}
-            sx={{ mt: 3, }}
+            alignItems={{ xs: "center", md: "flex-end" }}
+            sx={{ mt: 3 }}
           >
             {course?.map((element, index) => {
               return (
                 <>
                   <Grid item xs={4} key={index}>
-                    <Card sx={{ width: "auto", height: 450, m: 2, borderRadius: 4 }}>
+                    <Card
+                      sx={{
+                        maxWidth: 345,
+                        height: 500,
+                        m: 2,
+                        borderRadius: 4,
+                        textAlign: "center"
+                      }}
+                    >
                       <CardHeader
                         sx={{
                           backgroundColor: "red",
@@ -59,8 +66,7 @@ const Courses = () => {
                       />
                       <CardMedia
                         component="img"
-                        height="200"
-                        width="50"
+                        sx={{height: 180, width: 280, m: 4}}
                         image={`${imgUrl}/api/course/photo/${element._id}`}
                         alt="Paella dish"
                         loading="lazy"
@@ -85,16 +91,27 @@ const Courses = () => {
                         >
                           * Duration: {element.duration}
                         </Typography>
-                        <Button variant="contained" color="error" sx={{m: 2, ml: "6vw"}}
-                        onClick={!auth.user ? ()=>swal({
-                          title: "Are you logged in?",
-                          text: "Please login first to access further.",
-                          icon: "error",
-                          dangerMode: true,
-                        }) : ()=> navigate(`/applycourse/${element.name}/${element._id}`)}
-                        >
-                          Apply Now
-                        </Button>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            sx={{ mt: 3}}
+                            onClick={
+                              !auth.user
+                                ? () =>
+                                    swal({
+                                      title: "Are you logged in?",
+                                      text: "Please login first to access further.",
+                                      icon: "error",
+                                      dangerMode: true,
+                                    })
+                                : () =>
+                                    navigate(
+                                      `/applycourse/${element.name}/${element._id}`
+                                    )
+                            }
+                          >
+                            Apply Now
+                          </Button>
                       </CardContent>
                     </Card>
                   </Grid>

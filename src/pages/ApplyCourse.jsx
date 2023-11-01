@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Layout from "../components/Layout";
+import { Box, FormControl  } from "@mui/material";
 
 const ApplyCourse = () => {
   const { register, handleSubmit } = useForm();
@@ -27,24 +28,24 @@ const ApplyCourse = () => {
   return (
     <>
       <Layout title={"Apply-Course"}>
-        <Container
+        <Container>
+        <Box
           sx={{
-            width: "50%",
             boxShadow: "0px 0px 30px rgba(0,0,0,0.5)",
             mb: 5,
           }}
         >
           <h2 style={{ paddingTop: 30, textAlign: "center" }}>Apply for {course}</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
+            <FormControl fullWidth >
               <TextField
                 label="Name"
                 type="text"
                 name="name"
                 color="error"
                 focused
-                sx={{ marginLeft: 5, marginTop: 5, width: "90%" }}
-                value={auth?.user?.name}
+                sx={{ ml: 5, mr: 5, marginTop: 5, }}
+                value={auth?.user?.name.toUpperCase()}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -57,14 +58,13 @@ const ApplyCourse = () => {
                 placeholder="Don't worry!! Your mail id will remain private."
                 color="error"
                 focused
-                sx={{ marginLeft: 5, marginTop: 5, width: "90%" }}
+                sx={{ ml: 5, mr: 5, marginTop: 5 }}
                 value={auth?.user?.email}
                 InputProps={{
                   readOnly: true,
                 }}
                 {...register("email", { required: true })}
               />
-            </div>
             <TextField
               id="outlined-multiline-flexible"
               type="number"
@@ -74,7 +74,7 @@ const ApplyCourse = () => {
               name="phone"
               color="error"
               focused
-              sx={{ marginLeft: 5, marginTop: 5, width: "90%" }}
+              sx={{ ml: 5, mr: 5, marginTop: 5}}
               value={auth?.user?.mobile}
               {...register("phone", { required: true })}
             />
@@ -87,7 +87,7 @@ const ApplyCourse = () => {
               name="city"
               color="error"
               focused
-              sx={{ marginLeft: 5, marginTop: 5, width: "90%" }}
+              sx={{ ml: 5, mr: 5, marginTop: 5 }}
               {...register("city", { required: true })}
             />
             <TextField
@@ -99,7 +99,7 @@ const ApplyCourse = () => {
               name="address"
               color="error"
               focused
-              sx={{ marginLeft: 5, marginTop: 5, width: "90%" }}
+              sx={{ ml: 5, mr: 5, marginTop: 5 }}
               {...register("address", { required: true })}
             />
             <TextField
@@ -111,7 +111,7 @@ const ApplyCourse = () => {
               name="qualification"
               color="error"
               focused
-              sx={{ marginLeft: 5, marginTop: 5, width: "90%" }}
+              sx={{ ml: 5, mr: 5, marginTop: 5 }}
               {...register("qualification", { required: true })}
             />
             <TextField
@@ -123,7 +123,7 @@ const ApplyCourse = () => {
               name="programing_knowledge"
               color="error"
               focused
-              sx={{ marginLeft: 5, marginTop: 5, width: "90%" }}
+              sx={{ ml: 5, mr: 5, marginTop: 5 }}
               {...register("programing_knowledge", { required: true })}
             />
             <TextField
@@ -135,19 +135,20 @@ const ApplyCourse = () => {
               name="experiance"
               color="error"
               focused
-              sx={{ marginLeft: 5, marginTop: 5, width: "90%" }}
+              sx={{ marginTop: 5, ml: 5, mr: 5 }}
               {...register("experiance", { required: true })}
             />
             <Button
               type="submit"
               variant="contained"
               color="error"
-              sx={{ margin: 5, ml: "20vw" }}
-              a
+              sx={{ margin: 5 }}
             >
               Apply
             </Button>
+            </FormControl>
           </form>
+        </Box>
         </Container>
       </Layout>
     </>

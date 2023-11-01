@@ -24,6 +24,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CommentIcon from "@mui/icons-material/Comment";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { FormControl  } from "@mui/material";
 
 const BlogDetails = () => {
   const [blog, setBlog] = useState([]);
@@ -270,7 +271,7 @@ const BlogDetails = () => {
         >
           <h2 style={{ paddingTop: 30, paddingBottom: 15 }}>Leave a Comment</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
+            <FormControl>
               <TextField
                 label="Name"
                 type="text"
@@ -298,7 +299,6 @@ const BlogDetails = () => {
                 }}
                 {...register("email", { required: true })}
               />
-            </div>
             <TextField
               id="outlined-multiline-flexible"
               type="text"
@@ -319,6 +319,7 @@ const BlogDetails = () => {
             >
               Add Comment
             </Button>
+            </FormControl>
           </form>
         </Container>
       </Layout>

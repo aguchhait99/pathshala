@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 const Footer = () => {
   const privatePage = ["Home", "About", "Courses", "Blog", "Contact"];
@@ -142,10 +143,10 @@ const Footer = () => {
             <Typography align={"center"} color={"white"} mt={2}>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, doloremque?
             </Typography>
-            <Box sx={{ mt: 2, pl: 3}} m={"auto"}>
-            <TextField id="outlined-basic" variant="outlined" sx={{backgroundColor: "white", borderRadius: "10px 0px 0px 10px"}}/>
+            <ButtonGroup sx={{ mt: 2, pl: 3, mb: 2, alignContent: "center"}} m={"auto"}>
+            <TextField id="outlined-basic" variant="outlined" sx={{backgroundColor: "white", borderRadius: "10px 0px 0px 10px", width: "auto"}}/>
             <Button variant="contained" color="error" sx={{borderRadius: "0px 10px 10px 0px", pt: 2, pb: 2}}>Submit</Button>
-            </Box>
+            </ButtonGroup>
           </Grid>
         </Grid>
         </Container>
