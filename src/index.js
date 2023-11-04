@@ -11,7 +11,7 @@ root.render(
   <AUthProvider>
     <BrowserRouter>
       <App />
-    </BrowserRouter>
+      </BrowserRouter>
   </AUthProvider>
 );
 

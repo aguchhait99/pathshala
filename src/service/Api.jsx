@@ -172,3 +172,13 @@ export const likeCount = async(id)=>{
         console.log('Error while fetching the api details.');
     }
 }
+
+// Dislike 
+
+export const dislikeCount = async (id)=>{
+    try{
+        return await axiosInstance.put(`api/blog/unlike/${id}`)
+    }catch(error){
+        console.log('Error while fetching the api details.');
+    }
+}

@@ -45,10 +45,6 @@ const ApplyCourse = () => {
                 color="error"
                 focused
                 sx={{ ml: 5, mr: 5, marginTop: 5, }}
-                value={auth?.user?.name.toUpperCase()}
-                InputProps={{
-                  readOnly: true,
-                }}
                 {...register("name", { required: true })}
               />
               <TextField
@@ -59,10 +55,6 @@ const ApplyCourse = () => {
                 color="error"
                 focused
                 sx={{ ml: 5, mr: 5, marginTop: 5 }}
-                value={auth?.user?.email}
-                InputProps={{
-                  readOnly: true,
-                }}
                 {...register("email", { required: true })}
               />
             <TextField
@@ -75,7 +67,6 @@ const ApplyCourse = () => {
               color="error"
               focused
               sx={{ ml: 5, mr: 5, marginTop: 5}}
-              value={auth?.user?.mobile}
               {...register("phone", { required: true })}
             />
             <TextField

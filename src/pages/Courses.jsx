@@ -48,7 +48,7 @@ const Courses = () => {
                   <Grid item xs={4} key={index}>
                     <Card
                       sx={{
-                        maxWidth: 345,
+                        maxWidth: "auto",
                         height: 500,
                         m: 2,
                         borderRadius: 4,
@@ -66,7 +66,7 @@ const Courses = () => {
                       />
                       <CardMedia
                         component="img"
-                        sx={{height: 180, width: 280, m: 4}}
+                        sx={{height: 180, width: 250, m: 4}}
                         image={`${imgUrl}/api/course/photo/${element._id}`}
                         alt="Paella dish"
                         loading="lazy"
