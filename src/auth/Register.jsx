@@ -3,35 +3,65 @@ import Layout from "../components/Layout";
 import { useAuth } from "../context/Auth";
 import { registerData } from "../service/Api";
 import { useNavigate, Link } from "react-router-dom";
-import { Button, Container, FormControl, FormGroup, Grid, Input, InputLabel } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
+import {
+  Button,
+  Container,
+  FormControl,
+  FormGroup,
+  Grid,
+  Input,
+  InputLabel,
+} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
 
-
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [loading, setLoading] = useState()
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [mobile, setMobile] = useState("");
+  const [loading, setLoading] = useState();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    mobile: '',
+    photo: null,
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      photo: e.target.files[0],
+    });
+  };
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading('logging')
-    const response = await registerData({
-      name,
-      email,
-      mobile,
-      password,
-    });
+    setLoading("logging");
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('password', formData.password);
+    formDataToSend.append('mobile', formData.mobile);
+    formDataToSend.append('photo', formData.photo);
+    const response = await registerData(formDataToSend);
     if (response) {
       navigate("/");
       console.log("reg", response.data);
-      toast.success(response?.data?.message)
+      toast.success(response?.data?.message);
     } else {
-      toast.error("Something Went Wrong")
+      toast.error("Something Went Wrong");
     }
   };
   return (
@@ -42,13 +72,13 @@ const Register = () => {
             marginTop: "5%",
             boxShadow: "0px 0px 30px rgba(0,0,0,0.5)",
             borderRadius: "20px",
+            mb: "5%"
           }}
         >
           <Grid
             container
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 6 }}
-            
           >
             <Grid item xs={4} width={"auto"}>
               <img
@@ -79,12 +109,13 @@ const Register = () => {
                     paddingRight: 15,
                   }}
                 >
-                    <FormControl sx={{ paddingBottom: 2 }}>
+                  <FormControl sx={{ paddingBottom: 2 }}>
                     <InputLabel>Name</InputLabel>
                     <Input
                       type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
                       required
                     />
                   </FormControl>
@@ -92,8 +123,9 @@ const Register = () => {
                     <InputLabel>Email</InputLabel>
                     <Input
                       type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       required
                     />
                   </FormControl>
@@ -101,17 +133,30 @@ const Register = () => {
                     <InputLabel>Mobile</InputLabel>
                     <Input
                       type="number"
-                      value={mobile}
-                      onChange={(e) => setMobile(e.target.value)}
+                      name="mobile"
+                      value={formData.mobile}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl sx={{ paddingBottom: 2 }}>
+                    <InputLabel>Password</InputLabel>
+                    <Input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
                       required
                     />
                   </FormControl>
                   <FormControl>
-                    <InputLabel>Password</InputLabel>
+                    <InputLabel>Image</InputLabel>
                     <Input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      type="file"
+                      name="photo"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      // ref={{ ...register("photo") }}
                       required
                     />
                   </FormControl>

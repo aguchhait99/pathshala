@@ -81,7 +81,6 @@ const Blog = () => {
 
   const handlePageChange = (event, newPage) =>{
     setCurrentPage(newPage)
-    
   }
 
 
