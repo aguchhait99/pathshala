@@ -7,10 +7,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import { useAuth } from "../context/Auth";
 import TableHead from "@mui/material/TableHead";
+import { Grid } from "@mui/material";
 
 const Profile = () => {
   const [auth, setAuth] = useAuth();
- 
+
   return (
     <>
       <Layout title={"PhoenixTech-Profile"}>
@@ -23,11 +24,24 @@ const Profile = () => {
             borderRadius: 5,
           }}
         >
+          
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid item xs={8}>
           <Table>
             <TableHead>
-                <TableRow>
-                    <TableCell align="center" colSpan="2" sx={{fontWeight: "bold", fontFamily: "monospace", fontSize: "20px"}}>Welcome {auth.user.name}</TableCell>
-                </TableRow>
+              <TableRow>
+                <TableCell
+                  align="center"
+                  colSpan="2"
+                  sx={{
+                    fontWeight: "bold",
+                    fontFamily: "monospace",
+                    fontSize: "20px",
+                  }}
+                >
+                  Welcome {auth.user.name}
+                </TableCell>
+              </TableRow>
               <TableRow>
                 <TableCell align="center" sx={{ fontWeight: "bold" }}>
                   Name
@@ -50,7 +64,13 @@ const Profile = () => {
               </TableRow>
             </TableBody>
           </Table>
+          </Grid>
+          <Grid item xs={4}>
+            <img src={`https://restapinodejs.onrender.com/${auth.user.photo}`} alt="No photo Found" style={{height: 250, borderRadius: "50%"}} />
+          </Grid>
+        </Grid>
         </TableContainer>
+        
       </Layout>
     </>
   );

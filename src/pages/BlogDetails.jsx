@@ -45,9 +45,10 @@ const BlogDetails = () => {
   //   Blog Details
   const getBlogDetailsData = async () => {
     const response = await blogDetailsData(id);
+
     setBlog(response?.data?.data);
     setLoading1(false);
-    console.log("data", response);
+    console.log("data", response.data);
   };
 
   //   Fecth Comments
@@ -112,6 +113,7 @@ const BlogDetails = () => {
         const res_dislike = await dislikeCount(id);
           setDislike(res_dislike.data.likes);
           setIsDislike(true);
+          console.log('dis',res_dislike.data);
           localStorage.setItem(`disliked_${id}`, "true");
           getBlogDetailsData();
         } else {
@@ -364,6 +366,7 @@ const BlogDetails = () => {
                               />
                             </IconButton>
                           </Tooltip>
+                          {blog?.unlikes}
                         </span>
                       </>
                     }
